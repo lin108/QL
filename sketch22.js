@@ -1,6 +1,7 @@
 var bird;
 var pipes =[];
 var score = 10;
+var bg;
 
 // console.log(scoreEl)
 
@@ -8,20 +9,23 @@ var score = 10;
 // scoreEl.textContent = score;
 
 function preload(){
-    Char = loadImage("ar.jpg");
+    Char = loadImage("assets/Char1.png");
+    bg=loadImage("assets/BG.jpg");
 }
 
 function setup() {
-     bird = new Bird();
+  bird = new Bird();
+  
   createCanvas(1800,1000);
   bird = new Bird();
   pipes.push(new Pipe());  
+ 
   
 }
 
 function draw() {
 
-    background(2,2,200);
+    background(bg);
     bird.show();
     bird.update();  
 
@@ -72,7 +76,7 @@ function Bird(){
     this.velocity = 0;  
 
     this.show = function(){
-        image(Char,this.x,this.y);
+        image(Char,this.x,this.y,60,60);
         // var img = new Image();
         // img.src = "r1.png"
         // this.img = img;

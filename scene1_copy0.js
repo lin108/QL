@@ -1,6 +1,16 @@
+/*The public beta key is "dc6zaTOxFJmzC”*/
+
+var sceneInit=true;
+var sceneGame = false;
 var bird;
 var pipes =[];
 var score = 10;
+var bg;
+var doby;
+var words;
+var altitude=0;
+
+
 
 // console.log(scoreEl)
 
@@ -8,88 +18,152 @@ var score = 10;
 // scoreEl.textContent = score;
 
 function preload(){
-    Char = loadImage("ar.jpg");
+    Char = loadImage("assets/Char1.png");
+    bg=loadImage("assets/BG.jpg");
+
+
 }
 
 function setup() {
-     bird = new Bird();
-  createCanvas(1800,1000);
   bird = new Bird();
-  pipes.push(new Pipe());  
-  
+
+  createCanvas(window.innerWidth,window.innerHeight);
+  bird = new Bird();
+  pipes.push(new Pipe());
+  doby = new Doby();
+
 }
+
+
+
 
 function draw() {
 
-    background(2,2,200);
+    background(bg);
+
+//initial scene
+    if(sceneInit == true){
+        background(45,44,40);
+        doby.show();
+        /*var img = new Image();
+        img.src="assets/sit.gif";
+        img.position(500,500); */
+        fill(221,214,188);
+        words="I want to fly"
+        var x=800;var y =500;
+        text(words,x,y);
+        textSize(60);
+
+
+//??????????????????????
+        if(mouseX>=700){
+          /*var lijia=222;
+          console.log(lijia);*/
+          x+=random(-5,5);
+          y+=random(-5,5);
+          console.log(mouseX);
+        }
+    }
+
+
+
+
+
+// scenegame
+   else if(sceneGame==true){
+
     bird.show();
-    bird.update();  
+    bird.update();
 
 
-
+//show pipes
     if(frameCount% 40 == 0){
-        pipes.push(new Pipe());  
+        pipes.push(new Pipe());
     }
 
 for( var i = pipes.length-1; i>=0; i--){
     pipes[i].show();
     pipes[i].update();
-      
+
 //collison
     if(pipes[i].hits(bird)){
-      
+
     }
 
 
-//offscreen pipes deleting 
+//offscreen pipes deleting
     if(pipes[i].offscreen()){
         pipes.splice(i,1);
-    }
+             }
 
-    }   
-    // put drawing code here 
+         }
+    // put drawing code here
+     }
 }
 
+
+
+
 function keyPressed(){
-    if(key==' '){ 
+    if(key==' '){
         bird.up();
        // console.log("SPACE")
     }
 }
 
+function mousePressed(){
+    if(sceneInit==true){
+        if(mouseX<500){
+            sceneGame=true;
+        }
+        sceneInit=false;setInterval(function(){ altitude+=1; updateAltitude(altitude);}, 500);
+    }
+    sceneInit=false;
+}
+
+
+//doby
+function Doby(){
+  this.x=200;
+  this.y=200;
+  this.show= function(){
+    image(Char,this.x,this.y,600,600);
+  }
+}
 
 
 
 
 
 
-//bird.js 
-function Bird(){ 
-    this.y = 500;  
+
+//bird.js
+function Bird(){
+    this.y = 500;
     this.x =500;
     this.gravity = 0.4;
     this.lift = -13;
-    this.velocity = 0;  
+    this.velocity = 0;
 
     this.show = function(){
-        image(Char,this.x,this.y);
+        image(Char,this.x,this.y,60,60);
         // var img = new Image();
         // img.src = "r1.png"
         // this.img = img;
 
     }
 
-    this.up = function(){ 
+    this.up = function(){
         this.velocity += this.lift;
     }
-    
 
-    this.update = function (){ 
+
+    this.update = function (){
          this.velocity+=this.gravity;
-         
+
          this.y+=this.velocity;
 
-//if touch the bottom 
+//if touch the bottom
          if(this.y>height){
              this.y=height;
              this.velocity=0;
@@ -119,12 +193,12 @@ function Pipe(){
     this.update = function(){
         this.x -= this.speed;
     }
-    
 
-    this.offscreen = function(){ 
+
+    this.offscreen = function(){
         if(this.x < this.w)
-        {  return true; } 
-          
+        {  return true; }
+
 
             else
              {
@@ -142,7 +216,7 @@ function Pipe(){
                 updateScore(score)
                 return true;
             }
-      
+
         }
         this.highlight=false;
         return false;
@@ -153,6 +227,10 @@ function Pipe(){
 
 }
 
+//setInterval(function(){ altitude+=1; updateAltitude(altitude);}, 500);
+
+console.log(altitude);
+
 
 //formal parameter
 function updateScore(num) {
@@ -161,3 +239,7 @@ function updateScore(num) {
 }
 
 
+function updateAltitude(num) {
+    var altitudeEl = document.querySelector(".meters-board");
+    altitudeEl.innerHTML = num;
+}

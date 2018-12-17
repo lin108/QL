@@ -1,6 +1,12 @@
+/*The public beta key is "dc6zaTOxFJmzC”*/
+
+var sceneInit=true;
+var sceneGame = false;
 var bird;
 var pipes =[];
 var score = 10;
+var bg;
+
 
 // console.log(scoreEl)
 
@@ -8,88 +14,126 @@ var score = 10;
 // scoreEl.textContent = score;
 
 function preload(){
-    Char = loadImage("ar.jpg");
+    Char = loadImage("assets/Char1.png");
+    bg=loadImage("assets/BG.jpg");
+
+
 }
 
 function setup() {
-     bird = new Bird();
+  bird = new Bird();
+
   createCanvas(1800,1000);
   bird = new Bird();
-  pipes.push(new Pipe());  
-  
+  pipes.push(new Pipe());
+
+
+
 }
+
+
+
 
 function draw() {
 
-    background(2,2,200);
+    background(bg);
+
+//initial scene
+    if(sceneInit == true){
+        background(0);
+        /*var img = new Image();
+        img.src="assets/sit.gif";
+        img.position(500,500); */
+
+        fill(255,255,0);
+        text("START",50,300);
+    }
+
+// scenegame
+   else if(sceneGame==true){
+
+
     bird.show();
-    bird.update();  
+    bird.update();
 
 
-
+//show pipes
     if(frameCount% 40 == 0){
-        pipes.push(new Pipe());  
+        pipes.push(new Pipe());
     }
 
 for( var i = pipes.length-1; i>=0; i--){
     pipes[i].show();
     pipes[i].update();
-      
+
 //collison
     if(pipes[i].hits(bird)){
-      
+
     }
 
 
-//offscreen pipes deleting 
+//offscreen pipes deleting
     if(pipes[i].offscreen()){
         pipes.splice(i,1);
-    }
+             }
 
-    }   
-    // put drawing code here 
+         }
+    // put drawing code here
+     }
 }
 
+
+
+
 function keyPressed(){
-    if(key==' '){ 
+    if(key==' '){
         bird.up();
        // console.log("SPACE")
     }
 }
 
+function mousePressed(){
+    if(sceneInit==true){
+        if(mouseX<500){
+            sceneGame=true;
+        }
+        sceneInit=false;
+    }
+
+}
 
 
 
 
 
 
-//bird.js 
-function Bird(){ 
-    this.y = 500;  
+//bird.js
+function Bird(){
+    this.y = 500;
     this.x =500;
     this.gravity = 0.4;
     this.lift = -13;
-    this.velocity = 0;  
+    this.velocity = 0;
 
     this.show = function(){
-        image(Char,this.x,this.y);
+        image(Char,this.x,this.y,60,60);
         // var img = new Image();
         // img.src = "r1.png"
         // this.img = img;
 
     }
 
-    this.up = function(){ 
+    this.up = function(){
         this.velocity += this.lift;
     }
-    
 
-    this.update = function (){ 
+
+    this.update = function (){
          this.velocity+=this.gravity;
-         
+
          this.y+=this.velocity;
 
-//if touch the bottom 
+//if touch the bottom
          if(this.y>height){
              this.y=height;
              this.velocity=0;
@@ -119,12 +163,12 @@ function Pipe(){
     this.update = function(){
         this.x -= this.speed;
     }
-    
 
-    this.offscreen = function(){ 
+
+    this.offscreen = function(){
         if(this.x < this.w)
-        {  return true; } 
-          
+        {  return true; }
+
 
             else
              {
@@ -142,7 +186,7 @@ function Pipe(){
                 updateScore(score)
                 return true;
             }
-      
+
         }
         this.highlight=false;
         return false;
@@ -159,5 +203,3 @@ function updateScore(num) {
     var scoreEl = document.querySelector(".score-board");
     scoreEl.innerHTML = num;
 }
-
-

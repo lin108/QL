@@ -1,6 +1,10 @@
+var sceneInit = true;
+var sceneGame = false;
 var bird;
 var pipes =[];
 var score = 10;
+var bg;
+var lijia;
 
 // console.log(scoreEl)
 
@@ -8,24 +12,48 @@ var score = 10;
 // scoreEl.textContent = score;
 
 function preload(){
-    Char = loadImage("ar.jpg");
+    Char = loadImage("assets/Char1.png");
+    bg=loadImage("assets/BG.jpg");
 }
 
 function setup() {
-     bird = new Bird();
+  lijia = new lijia();
+
+/*  var lijia = createSprite(800,800);
+ lijia.addAnimation('normal','assets/Char1.png','assets/CharUp.png');
+ lijia.mouseActive=true;
+  
   createCanvas(1800,1000);
   bird = new Bird();
-  pipes.push(new Pipe());  
+  pipes.push(new Pipe());   */
+ 
   
 }
 
 function draw() {
 
-    background(2,2,200);
+    background(bg);
+//initial scene
+    if(sceneInit == true){
+        background(35);
+        fill(255,255,0);
+        text("START",500,500);
+         lijia.show(); 
+//LIJIA
+        /* if(lijia.mouseIsOver){
+            lijia.rotation-= 10;
+            lijia.visible=!lijia.mouseIsPressed
+        } */
+       
+       /*  drawSprites(); */
+     
+    }
+//game scene
+
+    else if(sceneGame==true){
+
     bird.show();
     bird.update();  
-
-
 
     if(frameCount% 40 == 0){
         pipes.push(new Pipe());  
@@ -48,13 +76,36 @@ for( var i = pipes.length-1; i>=0; i--){
 
     }   
     // put drawing code here 
+ }
 }
+
+
+
+function mousePressed(){
+    if(sceneInit==true){
+        if(mouseX<500){
+            sceneGame=true;
+        }
+        sceneInit=false;
+    }
+    
+}
+
 
 function keyPressed(){
     if(key==' '){ 
         bird.up();
        // console.log("SPACE")
     }
+}
+
+function lijia(){
+    this.x=800;
+    this.y=500;
+    this.show = function(){
+        image(Char,this.x,this.y,800,500);
+    }
+
 }
 
 
@@ -72,7 +123,7 @@ function Bird(){
     this.velocity = 0;  
 
     this.show = function(){
-        image(Char,this.x,this.y);
+        image(Char,this.x,this.y,60,60);
         // var img = new Image();
         // img.src = "r1.png"
         // this.img = img;

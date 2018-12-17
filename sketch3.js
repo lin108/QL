@@ -2,21 +2,27 @@ var bird;
 var pipes =[];
 var score = 10;
 
+
 // console.log(scoreEl)
 
 
 // scoreEl.textContent = score;
 
 function preload(){
-    Char = loadImage("ar.jpg");
+ Char = loadImage("Char1.png");
+  
+
 }
 
 function setup() {
-     bird = new Bird();
+  bird = new Bird();
   createCanvas(1800,1000);
   bird = new Bird();
   pipes.push(new Pipe());  
-  
+
+ 
+   
+ 
 }
 
 function draw() {
@@ -55,6 +61,9 @@ function keyPressed(){
         bird.up();
        // console.log("SPACE")
     }
+
+
+  //  drawSprites();
 }
 
 
@@ -65,14 +74,19 @@ function keyPressed(){
 
 //bird.js 
 function Bird(){ 
-    this.y = 500;  
+    this.y = 10;  
     this.x =500;
     this.gravity = 0.4;
     this.lift = -13;
     this.velocity = 0;  
 
     this.show = function(){
-        image(Char,this.x,this.y);
+        Image(Char,30,30);
+        
+
+
+
+        //image(Char,this.x,this.y);
         // var img = new Image();
         // img.src = "r1.png"
         // this.img = img;

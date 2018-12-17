@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>p5.js example</title>
     <style> body {padding: 0; margin: 0;} </style>
+      <script src="libraries/p5.js"></script>
+      <script src='https://rawgit.com/molleindustria/p5.play/master/lib/p5.play.js'></script>></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
     <script src="libraries/p5.min.js"></script>
     <script src="libraries//addons/p5.dom.min.js"></script>
-    <script src="libraries//p5.play.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.sound.js"></script>
+
     <script src="libraries//addons/p5.sound.min.js"></script>
-    <script src="sketch1.js"></script>
+
+    <script src="scene1_copy0.js"></script>
   </head>
   <body>
 
@@ -22,13 +28,21 @@
           z-index: 10;
         }
         canvas {
-          position: absolute;          
+          position: absolute;
           z-index: 1;
         }
         .score-board {
-          
+
+        }
+        .meters-board{
+          top: 720px;
+          left: 900px;
+          font-size: 100px;
+          color: #f4f4f4;
+          z-index: 10;
         }
       </style>
       <div class="score-board absolute">null</div>
+      <div class="meters-board absolute">null</div>
   </body>
 </html>
